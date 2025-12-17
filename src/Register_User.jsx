@@ -31,7 +31,13 @@ function Register() {
         password: register.password
       })
     })
-    .then(res => res.json())
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Server error");
+      }
+      return data;
+    })
     .then(data => {
       setRegister({...register, output:data.message, name:"",password:"",email:"",confirm:""});
     })

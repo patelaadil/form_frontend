@@ -23,7 +23,13 @@ function Login_User() {
         password: login.password
       })
     })
-    .then(res => res.json())
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Server error");
+      }
+      return data;
+    })
     .then(data => {
       setLogin({...login, output:data.message, email:"", password:""});
     })
